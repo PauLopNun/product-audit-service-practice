@@ -1,0 +1,22 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: demo-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: demo
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d demo"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    volumes:
+      - demo-postgres-data:/var/lib/postgresql/data
+
+volumes:
+  demo-postgres-data:
+

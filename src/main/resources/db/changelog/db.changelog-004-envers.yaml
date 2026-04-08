@@ -1,0 +1,66 @@
+databaseChangeLog:
+  - changeSet:
+      id: 008-create-revinfo
+      author: pau
+      changes:
+        - createTable:
+            tableName: revinfo
+            columns:
+              - column:
+                  name: rev
+                  type: INTEGER
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: revtstmp
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 009-create-products-aud
+      author: pau
+      changes:
+        - createTable:
+            tableName: products_aud
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: rev
+                  type: INTEGER
+                  constraints:
+                    nullable: false
+              - column:
+                  name: revtype
+                  type: SMALLINT
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+              - column:
+                  name: category
+                  type: VARCHAR(100)
+              - column:
+                  name: price
+                  type: DECIMAL(10,2)
+              - column:
+                  name: stock
+                  type: INTEGER
+              - column:
+                  name: active
+                  type: BOOLEAN
+        - addPrimaryKey:
+            tableName: products_aud
+            columnNames: id, rev
+            constraintName: pk_products_aud
+        - addForeignKeyConstraint:
+            baseTableName: products_aud
+            baseColumnNames: rev
+            referencedTableName: revinfo
+            referencedColumnNames: rev
+            constraintName: fk_products_aud_revinfo

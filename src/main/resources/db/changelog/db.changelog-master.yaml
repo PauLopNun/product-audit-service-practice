@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/db.changelog-001-init.yaml
+  - include:
+      file: db/changelog/db.changelog-002-practice.yaml
+  - include:
+      file: db/changelog/db.changelog-003-products.yaml
+  - include:
+      file: db/changelog/db.changelog-004-envers.yaml
+

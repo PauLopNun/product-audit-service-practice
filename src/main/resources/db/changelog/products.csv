@@ -1,0 +1,41 @@
+id,name,category,price,stock,active
+1,iPhone 14,Electronics,999.99,25,true
+2,Samsung Galaxy S23,Electronics,899.99,30,true
+3,MacBook Pro 14,Electronics,2499.00,10,true
+4,Dell XPS 13,Electronics,1599.00,15,true
+5,AirPods Pro,Accessories,249.99,100,true
+6,USB-C Cable,Accessories,9.99,500,true
+7,Wireless Mouse,Accessories,29.99,120,true
+8,Mechanical Keyboard,Accessories,129.99,80,true
+9,Nike Air Max,Shoes,149.99,60,true
+10,Adidas Ultraboost,Shoes,179.99,40,true
+11,Running Shorts,Sportswear,39.99,200,true
+12,Sports T-Shirt,Sportswear,19.99,300,true
+13,Protein Powder,Health,49.99,150,true
+14,Yoga Mat,Health,24.99,90,true
+15,Office Chair,Furniture,199.99,35,true
+16,Standing Desk,Furniture,399.99,20,true
+17,Coffee Machine,Home,89.99,45,true
+18,Blender,Home,59.99,70,true
+19,Smart Watch,Electronics,299.99,55,true
+20,Tablet 10 inch,Electronics,329.99,25,true
+21,External SSD 1TB,Storage,119.99,60,true
+22,Hard Drive 2TB,Storage,79.99,80,true
+23,HDMI Cable,Accessories,14.99,250,true
+24,Gaming Chair,Furniture,249.99,18,true
+25,LED Monitor 27,Electronics,229.99,40,true
+26,Router WiFi 6,Networking,149.99,35,true
+27,Ethernet Cable,Networking,7.99,400,true
+28,Backpack,Accessories,49.99,140,true
+29,Sneakers Classic,Shoes,89.99,75,true
+30,Sports Jacket,Sportswear,99.99,60,true
+31,Vitamin C,Health,12.99,300,true
+32,Desk Lamp,Home,34.99,110,true
+33,Notebook,Office,3.99,1000,true
+34,Pen Set,Office,5.99,800,true
+35,Printer Ink,Office,39.99,90,true
+36,Smart Speaker,Electronics,129.99,65,true
+37,Action Camera,Electronics,299.99,22,true
+38,Tripod,Accessories,24.99,150,true
+39,Camera Lens,Electronics,599.99,12,true
+40,Drone Mini,Electronics,499.99,8,true

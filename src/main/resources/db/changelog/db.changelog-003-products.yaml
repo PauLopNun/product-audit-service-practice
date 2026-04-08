@@ -1,0 +1,77 @@
+databaseChangeLog:
+  - changeSet:
+      id: 006-create-products
+      author: pau
+      changes:
+        - createTable:
+            tableName: products
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: category
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: price
+                  type: DECIMAL(10,2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: stock
+                  type: INTEGER
+                  constraints:
+                    nullable: false
+              - column:
+                  name: active
+                  type: BOOLEAN
+                  defaultValueBoolean: true
+                  constraints:
+                    nullable: false
+        - createIndex:
+            indexName: idx_products_name
+            tableName: products
+            columns:
+              - column:
+                  name: name
+        - createIndex:
+            indexName: idx_products_category
+            tableName: products
+            columns:
+              - column:
+                  name: category
+        - createIndex:
+            indexName: idx_products_active
+            tableName: products
+            columns:
+              - column:
+                  name: active
+
+  - changeSet:
+      id: 007-seed-products
+      author: pau
+      validCheckSum:
+        - 9:698d998b6ee19436ac272eda84e02069
+        - 9:cd0eb7fd3b8f10853ec8ddfb2e32a0c8
+      changes:
+        - loadData:
+            tableName: products
+            file: db/changelog/products.csv
+            columns:
+              - column: {name: id, type: SKIP}
+              - column: {name: name, type: STRING}
+              - column: {name: category, type: STRING}
+              - column: {name: price, type: NUMERIC}
+              - column: {name: stock, type: NUMERIC}
+              - column: {name: active, type: BOOLEAN}
