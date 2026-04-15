@@ -49,6 +49,9 @@ services:
     restart: unless-stopped
     environment:
       DATA_SERVICE_URL: http://data-service:8081
+      DB_URL: jdbc:postgresql://postgres:5432/demo
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
     ports:
       - "8080:8080"
     depends_on:
