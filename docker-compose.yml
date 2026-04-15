@@ -1,4 +1,5 @@
 services:
+
   postgres:
     image: postgres:16
     container_name: demo-postgres
@@ -17,6 +18,42 @@ services:
     volumes:
       - demo-postgres-data:/var/lib/postgresql/data
 
+  data-service:
+    build:
+      context: ../data-service
+      dockerfile: Dockerfile
+    image: data-service:local
+    container_name: data-service
+    restart: unless-stopped
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/demo
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+    ports:
+      - "8081:8081"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8081/api/users/count || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+
+  audit-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: audit-service:local
+    container_name: audit-service
+    restart: unless-stopped
+    environment:
+      DATA_SERVICE_URL: http://data-service:8081
+    ports:
+      - "8080:8080"
+    depends_on:
+      data-service:
+        condition: service_healthy
+
 volumes:
   demo-postgres-data:
-
