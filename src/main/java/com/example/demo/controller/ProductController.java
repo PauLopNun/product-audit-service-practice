@@ -1,8 +1,8 @@
 package com.example.demo.controller;
 
+import com.example.demo.application.port.ProductDataPort;
 import com.example.demo.application.service.ProductAuditService;
 import com.example.demo.domain.Product;
-import com.example.demo.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,14 +17,14 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ProductController {
 
-    private final ProductRepository productRepository;
+    private final ProductDataPort productDataPort;
     private final ProductAuditService productAuditService;
 
     @PutMapping("/{id}")
     @Transactional
     public ResponseEntity<Product> update(@PathVariable Long id,
                                           @RequestBody UpdateProductRequest body) {
-        Product product = productRepository.findById(id)
+        Product product = productDataPort.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado: " + id));
 
         if (body.name()     != null) product.setName(body.name());
@@ -33,9 +33,8 @@ public class ProductController {
         if (body.stock()    != null) product.setStock(body.stock());
         if (body.active()   != null) product.setActive(body.active());
 
-        return ResponseEntity.ok(productRepository.save(product));
+        return ResponseEntity.ok(productDataPort.save(product));
     }
-
 
     @GetMapping("/{id}/audit/revisions")
     public ResponseEntity<List<Number>> getRevisions(@PathVariable Long id) {

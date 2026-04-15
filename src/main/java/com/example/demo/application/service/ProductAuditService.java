@@ -1,16 +1,12 @@
 package com.example.demo.application.service;
 
+import com.example.demo.application.port.ProductAuditPort;
+import com.example.demo.application.port.ProductDataPort;
 import com.example.demo.domain.Product;
-import com.example.demo.repository.ProductRepository;
-import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.envers.AuditReader;
-import org.hibernate.envers.AuditReaderFactory;
-import org.hibernate.envers.query.AuditEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,29 +15,27 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ProductAuditService {
 
-    private final EntityManager entityManager;
-    private final ProductRepository productRepository;
+    private final ProductDataPort productDataPort;
+    private final ProductAuditPort productAuditPort;
 
     @Transactional(readOnly = true)
     public List<Number> getRevisions(Long productId) {
-        AuditReader reader = AuditReaderFactory.get(entityManager);
-        return reader.getRevisions(Product.class, productId);
+        return productAuditPort.getRevisions(productId);
     }
 
     @Transactional(readOnly = true)
     public Product getProductAtRevision(Long productId, Integer revision) {
-        AuditReader reader = AuditReaderFactory.get(entityManager);
-        return reader.find(Product.class, productId, revision);
+        return productAuditPort.getProductAtRevision(productId, revision);
     }
 
     @Transactional
     public Product revertToRevision(Long productId, Integer revision) {
-        Product snapshot = getProductAtRevision(productId, revision);
+        Product snapshot = productAuditPort.getProductAtRevision(productId, revision);
         if (snapshot == null) {
             throw new IllegalArgumentException(
                     "No existe el producto %d en la revisión %d".formatted(productId, revision));
         }
-        Product current = productRepository.findById(productId)
+        Product current = productDataPort.findById(productId)
                 .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado: " + productId));
 
         current.setName(snapshot.getName());
@@ -50,14 +44,13 @@ public class ProductAuditService {
         current.setStock(snapshot.getStock());
         current.setActive(snapshot.getActive());
 
-        return productRepository.save(current);
+        return productDataPort.save(current);
     }
-
 
     @Transactional(readOnly = true)
     public Map<String, Map<String, Object>> diff(Long productId, Integer revFrom, Integer revTo) {
-        Product from = getProductAtRevision(productId, revFrom);
-        Product to   = getProductAtRevision(productId, revTo);
+        Product from = productAuditPort.getProductAtRevision(productId, revFrom);
+        Product to   = productAuditPort.getProductAtRevision(productId, revTo);
 
         if (from == null || to == null) {
             throw new IllegalArgumentException(

@@ -1,9 +1,9 @@
 package com.example.demo.application.service;
 
+import com.example.demo.application.port.UserDataPort;
 import com.example.demo.domain.Allergy;
 import com.example.demo.domain.User;
 import com.example.demo.model.UserDTO;
-import com.example.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,11 +16,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserService {
 
-    private final UserRepository userRepository;
+    private final UserDataPort userDataPort;
 
     public List<UserDTO> getUsers() {
-
-        List<User> users = userRepository.findAllWithAllergies();
+        List<User> users = userDataPort.findAllWithAllergies();
 
         return users.stream()
                 .map(user -> new UserDTO(
@@ -33,8 +32,8 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public List<UserDTO> findAllByNameLike(String name){
-        List<User> users = userRepository.findAllByNameContaining(name);
+    public List<UserDTO> findAllByNameLike(String name) {
+        List<User> users = userDataPort.findAllByNameContaining(name);
 
         return users.stream()
                 .map(user -> new UserDTO(
@@ -52,19 +51,17 @@ public class UserService {
         user.setName(name);
         user.setAllergies(Collections.emptyList());
 
-        User saved = userRepository.save(user);
+        User saved = userDataPort.save(user);
         return mapToDto(saved);
     }
 
     @Transactional
     public void updateUser(Long id, String name) {
-        userRepository.updateById(id, name);
-
+        userDataPort.updateById(id, name);
     }
 
-
     public List<UserDTO> getUsersWithAllergies() {
-        List<User> users = userRepository.findAll();
+        List<User> users = userDataPort.findAll();
 
         return users.stream()
                 .map(this::mapToDto)
@@ -72,7 +69,6 @@ public class UserService {
     }
 
     private UserDTO mapToDto(User user) {
-
         return UserDTO.builder()
                 .id(user.getId())
                 .name(user.getName())

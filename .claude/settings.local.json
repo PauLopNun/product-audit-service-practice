@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -E '\\\\.\\(java|xml|yml|properties|md|gradle\\)$|docker-compose')"
+    ]
+  }
+}

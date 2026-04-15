@@ -30,3 +30,16 @@ logging:
   level:
     org.hibernate.SQL: WARN
     org.hibernate.orm.jdbc.bind: WARN
+
+# -------------------------------------------------------------------
+# Data source mode:
+#   jpa  (default) — acceso directo a PostgreSQL vía JPA/Hibernate
+#   rest           — delega todas las operaciones al servicio de datos
+# -------------------------------------------------------------------
+app:
+  datasource:
+    mode: jpa
+
+  # URL base del servicio de datos remoto (sólo se usa cuando mode=rest)
+  data-service:
+    url: ${DATA_SERVICE_URL:http://localhost:8081}
