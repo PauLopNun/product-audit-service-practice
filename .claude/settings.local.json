@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(grep -E '\\\\.\\(java|xml|yml|properties|md|gradle\\)$|docker-compose')"
+      "Bash(grep -E '\\\\.\\(java|xml|yml|properties|md|gradle\\)$|docker-compose')",
+      "Bash(python3:*)",
+      "Bash(powershell:*)"
     ]
   }
 }
