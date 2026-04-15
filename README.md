@@ -133,7 +133,32 @@ spring:
 - Java 21+
 - Docker (for the embedded Docker Compose PostgreSQL)
 
-### Start (JPA mode — default)
+### Start (REST mode — default)
+
+The service defaults to `mode: rest`. **Start [data-service](https://github.com/PauLopNun/data-service) first** — it manages PostgreSQL and exposes the API on port 8081.
+
+```bash
+# 1. Start data-service (manages PostgreSQL + exposes /api/* endpoints)
+cd ../data-service
+./mvnw spring-boot:run
+
+# 2. Start this service (delegates all data operations to data-service)
+cd ../product-audit-service-practice
+./mvnw spring-boot:run
+```
+
+### Start (JPA mode — standalone, no data-service needed)
+
+```yaml
+# application.yaml — change these two properties:
+app:
+  datasource:
+    mode: jpa
+spring:
+  docker:
+    compose:
+      enabled: true
+```
 
 ```bash
 ./mvnw spring-boot:run
@@ -142,12 +167,6 @@ spring:
 Spring Boot auto-starts the PostgreSQL container defined in `docker-compose.yml` (port `5433`).
 Liquibase applies all migrations and loads the 40-product seed from CSV.
 On first run a `CommandLineRunner` populates 5 allergies and 30 users.
-
-### Start (REST mode)
-
-```bash
-./mvnw spring-boot:run -Dspring-boot.run.arguments="--app.datasource.mode=rest --app.data-service.url=http://localhost:8081"
-```
 
 ### Run tests
 
