@@ -1,0 +1,235 @@
+{
+  "info": {
+    "name": "Audit + Data Service - Full Calls",
+    "description": "Coleccion completa para Postman con llamadas del audit-service (este proyecto) y del data-service vinculado.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "auditBaseUrl", "value": "http://localhost:8080" },
+    { "key": "dataBaseUrl", "value": "http://localhost:8081" },
+    { "key": "userId", "value": "1" },
+    { "key": "productId", "value": "1" },
+    { "key": "revision", "value": "1" },
+    { "key": "fromRev", "value": "1" },
+    { "key": "toRev", "value": "2" },
+    { "key": "nameLike", "value": "User" },
+    { "key": "newUserName", "value": "UsuarioPostman" },
+    { "key": "updatedUserName", "value": "UsuarioRenombrado" }
+  ],
+  "item": [
+    {
+      "name": "Audit Service (8080) - Proyecto actual",
+      "item": [
+        {
+          "name": "GET /users",
+          "request": {
+            "method": "GET",
+            "url": "{{auditBaseUrl}}/users"
+          }
+        },
+        {
+          "name": "GET /users/name-like/{name}",
+          "request": {
+            "method": "GET",
+            "url": "{{auditBaseUrl}}/users/name-like/{{nameLike}}"
+          }
+        },
+        {
+          "name": "POST /users/{name}",
+          "request": {
+            "method": "POST",
+            "url": "{{auditBaseUrl}}/users/{{newUserName}}"
+          }
+        },
+        {
+          "name": "PUT /users/update-name/{id}/{name}",
+          "request": {
+            "method": "PUT",
+            "url": "{{auditBaseUrl}}/users/update-name/{{userId}}/{{updatedUserName}}"
+          }
+        },
+        {
+          "name": "GET /users/allergies",
+          "request": {
+            "method": "GET",
+            "url": "{{auditBaseUrl}}/users/allergies"
+          }
+        },
+        {
+          "name": "PUT /products/{id}",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Producto actualizado\",\n  \"category\": \"Electronics\",\n  \"price\": 999.99,\n  \"stock\": 10,\n  \"active\": true\n}"
+            },
+            "url": "{{auditBaseUrl}}/products/{{productId}}"
+          }
+        },
+        {
+          "name": "GET /products/{id}/audit/revisions",
+          "request": {
+            "method": "GET",
+            "url": "{{auditBaseUrl}}/products/{{productId}}/audit/revisions"
+          }
+        },
+        {
+          "name": "GET /products/{id}/audit/{revision}",
+          "request": {
+            "method": "GET",
+            "url": "{{auditBaseUrl}}/products/{{productId}}/audit/{{revision}}"
+          }
+        },
+        {
+          "name": "GET /products/{id}/audit/diff?from&to",
+          "request": {
+            "method": "GET",
+            "url": "{{auditBaseUrl}}/products/{{productId}}/audit/diff?from={{fromRev}}&to={{toRev}}"
+          }
+        },
+        {
+          "name": "POST /products/{id}/audit/revert/{revision}",
+          "request": {
+            "method": "POST",
+            "url": "{{auditBaseUrl}}/products/{{productId}}/audit/revert/{{revision}}"
+          }
+        },
+        {
+          "name": "GET /swagger-ui.html",
+          "request": {
+            "method": "GET",
+            "url": "{{auditBaseUrl}}/swagger-ui.html"
+          }
+        },
+        {
+          "name": "GET /v3/api-docs",
+          "request": {
+            "method": "GET",
+            "url": "{{auditBaseUrl}}/v3/api-docs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Data Service (8081) - Proyecto vinculado",
+      "item": [
+        {
+          "name": "GET /api/users",
+          "request": {
+            "method": "GET",
+            "url": "{{dataBaseUrl}}/api/users"
+          }
+        },
+        {
+          "name": "GET /api/users?nameContains=",
+          "request": {
+            "method": "GET",
+            "url": "{{dataBaseUrl}}/api/users?nameContains={{nameLike}}"
+          }
+        },
+        {
+          "name": "POST /api/users",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"UsuarioDataService\"\n}"
+            },
+            "url": "{{dataBaseUrl}}/api/users"
+          }
+        },
+        {
+          "name": "PUT /api/users/{id}",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"UsuarioActualizadoDataService\"\n}"
+            },
+            "url": "{{dataBaseUrl}}/api/users/{{userId}}"
+          }
+        },
+        {
+          "name": "GET /api/users/count",
+          "request": {
+            "method": "GET",
+            "url": "{{dataBaseUrl}}/api/users/count"
+          }
+        },
+        {
+          "name": "GET /api/allergies",
+          "request": {
+            "method": "GET",
+            "url": "{{dataBaseUrl}}/api/allergies"
+          }
+        },
+        {
+          "name": "POST /api/allergies",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Gluten\",\n  \"severity\": \"HIGH\"\n}"
+            },
+            "url": "{{dataBaseUrl}}/api/allergies"
+          }
+        },
+        {
+          "name": "GET /api/allergies/count",
+          "request": {
+            "method": "GET",
+            "url": "{{dataBaseUrl}}/api/allergies/count"
+          }
+        },
+        {
+          "name": "GET /api/products/{id}",
+          "request": {
+            "method": "GET",
+            "url": "{{dataBaseUrl}}/api/products/{{productId}}"
+          }
+        },
+        {
+          "name": "PUT /api/products/{id}",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"ProductoDataService\",\n  \"category\": \"Electronics\",\n  \"price\": 1499.99,\n  \"stock\": 7,\n  \"active\": true\n}"
+            },
+            "url": "{{dataBaseUrl}}/api/products/{{productId}}"
+          }
+        },
+        {
+          "name": "GET /api/products/{id}/audit/revisions",
+          "request": {
+            "method": "GET",
+            "url": "{{dataBaseUrl}}/api/products/{{productId}}/audit/revisions"
+          }
+        },
+        {
+          "name": "GET /api/products/{id}/audit/{revision}",
+          "request": {
+            "method": "GET",
+            "url": "{{dataBaseUrl}}/api/products/{{productId}}/audit/{{revision}}"
+          }
+        }
+      ]
+    }
+  ]
+}
+

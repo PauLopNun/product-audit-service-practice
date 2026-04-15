@@ -20,8 +20,8 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Build (skip tests - requires data-service running)
-        run: ./mvnw package -DskipTests -Dspring.docker.compose.enabled=false
+      - name: Build and test
+        run: ./mvnw verify -Dspring.docker.compose.enabled=false
 
       - name: Build Docker image
         run: docker build -t audit-service:ci .
